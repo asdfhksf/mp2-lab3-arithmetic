@@ -22,5 +22,8 @@
     <ClInclude Include="..\..\..\include\stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,9 +33,6 @@ Stack<T>::Stack(int s)
 		Count_Elements = 0;
 
 		Elements = new T[Size];
-
-		for (int i = 0; i < Size; i++)
-			Elements[i] = 0;
 	}
 	else
 		throw "Negative size";
