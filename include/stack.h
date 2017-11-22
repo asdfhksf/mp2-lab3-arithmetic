@@ -1,3 +1,7 @@
+#include "includes.h"
+
+using namespace std;
+
 template< typename T >
 class Stack
 {
@@ -20,6 +24,28 @@ public:
 
 	bool operator==(const Stack &st);
 	bool operator!=(const Stack &st);
+
+	Stack<T>& operator=(const Stack &st);
+
+	friend ostream& operator<<(ostream &os, const Stack<T> &st)
+	{
+		cout << fixed;
+		cout.precision(15);
+
+		int s = st.Count_Elements;	
+		Stack<T> tmp(st);
+		T *E = new T[s];
+
+		for (int i = s - 1; i >= 0; i--)
+			E[i] = tmp.Pop();
+
+		os << "|";
+		for (int i = 0; i < s; i++)
+			os << E[i] << "|";
+
+		delete[]E;
+		return os;
+	}
 };
 
 
@@ -77,7 +103,7 @@ void Stack<T>::Push(T elem)
 
 		delete[] Elements;
 
-		Elements = new T[Size + 1];
+		Elements = new T[Size + 10];
 		for (int i = 0; i < Size; i++)
 			Elements[i] = tmp[i];
 
@@ -95,6 +121,8 @@ T Stack<T>::Pop()
 {
 	if (!Empty())
 		return Elements[--Count_Elements];
+	else
+		throw - 1;
 }
 
 template< typename T >
@@ -102,14 +130,10 @@ T Stack<T>::Peek()
 {
 	if (!Empty())
 	{
-		T tmp;
-
-		Count_Elements--;
-		tmp = Elements[Count_Elements];
-		Count_Elements++;
-
-		return tmp;
+		return Elements[Count_Elements - 1];
 	}
+	else
+		throw - 1;
 }
 
 template< typename T >
@@ -160,4 +184,21 @@ template< typename T >
 bool Stack<T>::operator!=(const Stack &st)
 {
 	return !(*this == st);
+}
+
+template< typename T >
+Stack<T>& Stack<T>::operator=(const Stack &st)
+{
+	if (this != &st)
+	{
+		Size = st.Size;
+		Count_Elements = st.Count_Elements;
+
+		delete[]Elements;
+		Elements = new T[Size];
+
+		for (int i = 0; i < Size; i++)
+			Elements[i] = st.Elements[i];
+	}
+	return *this;
 }

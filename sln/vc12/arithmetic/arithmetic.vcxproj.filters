@@ -22,7 +22,7 @@
     <ClInclude Include="..\..\..\include\stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes.h">
+    <ClInclude Include="..\..\..\include\includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

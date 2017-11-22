@@ -6,7 +6,7 @@ TEST(Stack, can_create_stack_with_positive_size)
 	ASSERT_NO_THROW(Stack<int> st(5));
 }
 
-TEST(Stack, cant_create_stack_with_negative_size) 
+TEST(Stack, cant_create_stack_with_negative_size)
 {
 	ASSERT_ANY_THROW(Stack<int> st(-5));
 }
