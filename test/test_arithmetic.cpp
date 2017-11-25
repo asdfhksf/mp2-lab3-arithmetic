@@ -1,4 +1,4 @@
-#include "arithmetic.h" 
+#include "arithmetic.h"
 #include <gtest.h>
 
 TEST(Arithmetic, can_is_elem_true)
@@ -285,11 +285,12 @@ TEST(Arithmetic, can_check_correct_operands_true)
 
 TEST(Arithmetic, can_check_correct_operands_false)
 {
-	string str1 = "1 + 2 - 3^6 ";
+	string str1 = "234.432";
 
 	bool C = false;
 	bool n = false, first = true;
 	int a, b;
+
 	for (unsigned int i = 0; i < str1.length(); i++)
 	{
 		if ((!Is_Elem(str1, "+-*/^!()[] ", i)) && (first))
@@ -299,7 +300,7 @@ TEST(Arithmetic, can_check_correct_operands_false)
 			a = i;
 		}
 
-		if (Is_Elem(str1, "+-*/^()[]", i))
+		if (Is_Elem(str1, "+-*/^()[].", i))
 		{
 			n = false;
 			first = true;
