@@ -13,23 +13,15 @@ TEST(Arithmetic, can_is_elem_false)
 
 TEST(Arithmetic, can_delete_spaces)
 {
-	int s = 0;
-	string tmp = " -( ( (2 ^  3)!- 10 ^ 2 / 234) * 3!) ^ (-1 / 10) + a ";
+	string str1 = " -( ( (2 ^  3)!- 10 ^ 2 / 234) * 3!) ^ (-1 / 10) + a ";
 
-	for (unsigned int i = 0; i < tmp.length(); i++)
+	for (unsigned int i = 0; i < str1.length(); i++)
 	{
-		if (tmp[i] == ' ')
-			tmp.erase(i--, 1);
+		if (str1[i] == ' ')
+			str1.erase(i--, 1);
 	}
 
-
-	for (unsigned int i = 0; i < tmp.length(); i++)
-	{
-		if (tmp[i] == ' ')
-			s++;
-	}
-
-	EXPECT_EQ(0, s);
+	EXPECT_EQ("-(((2^3)!-10^2/234)*3!)^(-1/10)+a", str1);
 }
 
 TEST(Arithmetic, can_break_into_lexems)
