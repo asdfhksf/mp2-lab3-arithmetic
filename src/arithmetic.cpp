@@ -1,7 +1,5 @@
 #include "arithmetic.h"
 
-bool C;
-
 int fact(int n)
 {
 	int res = 1;
@@ -17,6 +15,7 @@ int fact(int n)
 	else
 		throw - 1;
 }
+
 bool Is_Elem(string str1, string str2, int pos)
 {
 	if ((str1[pos] == '\0'))
@@ -28,50 +27,63 @@ bool Is_Elem(string str1, string str2, int pos)
 
 	return false;
 }
+string Delete_Spaces(string str1)
+{
+	for (unsigned int i = 0; i < str1.length(); i++)
+		if (str1[i] == ' ')
+			str1.erase(i--, 1);
+
+	return str1;
+}
+int* Positions(int *(&Pos), string str1, string str2)
+{
+	Pos = new int[str1.length()];
+
+	Pos[0] = str1.find(str2[0]);
+	for (unsigned int i = 1; i < str2.length(); i++)
+		Pos[i] = str1.find(str2[i], Pos[i - 1] + 1);
+
+	return Pos;
+}
+
 int EXtoML(string str1, string *(&str2))
 {
-	string tmp(str1), Op = "()+-*/^!";
+	string tmp(str1), Op = "()+-*/^!\\%";
 	unsigned int j = 0, i = 0;
 
-	for (unsigned int i = 0; i < tmp.length(); i++)
-		if (tmp[i] == ' ')
-			tmp.erase(i--, 1);
+	tmp = Delete_Spaces(tmp);
 
+	str2 = new string[tmp.length()];
+
+	j = 0;
+	i = -1;
 	while (j < tmp.length())
 	{
-		while (!Is_Elem(str1, Op, j))
-			j++;
-		if (j < str1.length())
-		{
-			if (!Is_Elem(str1, "(", j)) i++;
-			if (!Is_Elem(str1, ")", j)) i++;
-			j++;
-		}
-	}
-	str2 = new string[i + 10];
-
-	i = j = 0;
-	while (j < tmp.length())
-	{
+		i++;
 		while (!Is_Elem(tmp, Op, j))
 		{
 			str2[i] += tmp[j++];
 		}
 		if (j < tmp.length())
 		{
-			if ((!Is_Elem(tmp, "(", j))) i++;
-			str2[i] += tmp[j];
-			if ((!Is_Elem(tmp, ")!", j))) i++;
-			j++;
+			if (j != 0)
+			{
+				if (!Is_Elem(tmp, Op, j - 1)) i++;
+				str2[i] += tmp[j++];
+			}
+			else
+				str2[i] += tmp[j++];
 		}
 	}
 
 	return i + 1;
 }
-void Check_Correct_Characters(string str1)
+
+bool Check_Correct_Characters(string str1)
 {
+	bool C = false;
 	int pos = 0;
-	string Trash = "@#$%&_<>,?|;:{}'~`";
+	string Trash = "@#$&_<>,?|;:{}'~`";
 
 	for (unsigned int i = 0; i < str1.length(); i++)
 	{
@@ -85,24 +97,18 @@ void Check_Correct_Characters(string str1)
 	}
 	//cout << endl;
 
+	return C;
 }
-void Check_Correct_Operators(string str1)
+bool Check_Correct_Operators(string str1)
 {
-	string tmp(str1);
+	bool C = false;
+	string tmp(str1), Op = "+*/.^\\%";
 	int *Pos = new int[str1.length()];
 
-	for (unsigned int i = 0; i < tmp.length(); i++)
-	{
-		if (tmp[i] == ' ')
-			tmp.erase(i--, 1);
-		Pos[i] = 0;
-	}
+	tmp = Delete_Spaces(tmp);
+	Pos = Positions(Pos, str1, tmp);
 
-	Pos[0] = str1.find(tmp[0]);
-	for (unsigned int i = 1; i < tmp.length(); i++)
-		Pos[i] = str1.find(tmp[i], Pos[i - 1] + 1);
-
-	if (Is_Elem(tmp, "+*/.^!"))
+	if (Is_Elem(tmp, Op + "!"))
 	{
 		cout << "Operator at the beginning of the line" << endl;
 		C = true;
@@ -110,7 +116,7 @@ void Check_Correct_Operators(string str1)
 
 	for (unsigned int i = 0; i < tmp.length(); i++)
 	{
-		if (Is_Elem(tmp, "+-*/.^", i) && Is_Elem(tmp, "+-*/.^", i + 1))
+		if (Is_Elem(tmp, Op + "-", i) && Is_Elem(tmp, Op + ")-", i + 1))
 		{
 			cout << "Two operators in a row:	" << tmp[i] << " and " << tmp[i + 1] << endl;
 			cout << "On " << Pos[i] << " position" << endl;
@@ -119,9 +125,12 @@ void Check_Correct_Operators(string str1)
 	}
 
 	delete[] Pos;
+
+	return C;
 }
-void Check_Correct_Brackets(string str1)
+bool Check_Correct_Brackets(string str1)
 {
+	bool C = false;
 	char b;
 	string tmp(str1), l_brackets = "[(", r_brackets = ")]";
 	Stack<char> brackets(tmp.length());
@@ -161,29 +170,34 @@ void Check_Correct_Brackets(string str1)
 		C = true;
 	}
 	//cout << endl;
+
+	return C;
 }
-void Check_Correct_Operands(string str1)
+bool Check_Correct_Operands(string str1)
 {
+	bool C = false;
 	bool n = false, first = true;
 	int a;
+	string Op = "+-*/^!()[]\\%";
+
 	for (unsigned int i = 0; i < str1.length(); i++)
 	{
-		if ((!Is_Elem(str1, "+-*/^!()[] ", i)) && (first))
+		if ((!Is_Elem(str1, Op + " ", i)) && (first))
 		{
 			first = false;
 			n = true;
 			a = i;
 		}
 
-		if (Is_Elem(str1, "+-*/^()[]", i))
+		if (Is_Elem(str1, Op + ".", i))
 		{
 			n = false;
 			first = true;
 		}
 
-		if ((!Is_Elem(str1, "+-*/^!()[] ", i)) && (n))
+		if ((!Is_Elem(str1, Op + " ", i)) && (n))
 		{
-			if ((i != 0) && (!Is_Elem(str1, "0123456789", i - 1)) && (a != i))
+			if ((i != 0) && (!Is_Elem(str1, "0123456789)", i - 1)) && (a != i))
 			{
 				cout << "Two operands in a row:	" << str1[a] << " and " << str1[i] << endl;
 				cout << "On " << a << " position" << endl;
@@ -192,24 +206,35 @@ void Check_Correct_Operands(string str1)
 		}
 	}
 
+	return C;
 }
-void Check(string str1)
+bool Check(string str1)
 {
-	Check_Correct_Brackets(str1);
-	Check_Correct_Characters(str1);
-	Check_Correct_Operators(str1);
-	Check_Correct_Operands(str1);
+	bool C1, C2, C3, C4;
 
-	if (C)
-		cout << endl << "Enter the correct expression" << endl;
-	cout << endl;
+	C1 = Check_Correct_Brackets(str1);
+	C2 = Check_Correct_Characters(str1);
+	C3 = Check_Correct_Operators(str1);
+	C4 = Check_Correct_Operands(str1);
+
+	if (C1 || C2 || C3 || C4)
+	{
+		cout << endl << "Enter the correct expression" << endl << endl;
+		return true;
+	}
+	else
+	{
+		cout << endl;
+		return false;
+	}
 }
+
 int Prior(string str1)
 {
 	if ((str1 == "+") || (str1 == "-"))
 		return 2;
 
-	if ((str1 == "*") || (str1 == "/"))
+	if (((str1 == "*") || (str1 == "/")) || ((str1 == "\\") || (str1 == "%")))
 		return 3;
 
 	if (str1 == "^")
@@ -222,10 +247,11 @@ Stack<string> To_Postfix_Not(string *(&str1), int l)
 {
 	Stack<string> st1(l);
 	Stack<string> Op(l);
+	string OP = "+-*/^!\\%";
 
 	for (int i = 0; i < l; i++)
 	{
-		if (!Is_Elem(str1[i], "+-*/()^!"))
+		if (!Is_Elem(str1[i], OP + "()"))
 			st1.Push(str1[i]);
 
 		if (Is_Elem(str1[i], "("))
@@ -238,7 +264,7 @@ Stack<string> To_Postfix_Not(string *(&str1), int l)
 			Op.Pop();
 		}
 
-		if (Is_Elem(str1[i], "+-*/^!"))
+		if (Is_Elem(str1[i], OP))
 		{
 			while (!Op.Empty() && (Op.Peek() != "(") && (Prior(str1[i]) <= Prior(Op.Peek())))
 				st1.Push(Op.Pop());
@@ -269,11 +295,17 @@ double Operator(string str1, double op1, double op2)
 
 	if (str1 == "!")
 		return fact(op1);
+
+	if (str1 == "\\")
+		return ((int)(op1 / op2));
+
+	if (str1 == "%")
+		return (int)op1 % (int)op2;
 }
 double Stack_Machine(Stack<string> st1, int l)
 {
 	Stack<double> st2;
-	string *str1 = new string[l];
+	string *str1 = new string[l], Op = "+-*/!^\\%";
 	double l_op, r_op, var;
 
 	for (int i = l - 1; i >= 0; i--)
@@ -281,7 +313,7 @@ double Stack_Machine(Stack<string> st1, int l)
 
 	for (int i = 0; i < l; i++)
 	{
-		if (Is_Elem(str1[i], "+-*/!^"))
+		if (Is_Elem(str1[i], Op))
 		{
 			if (str1[i] == "!")
 			{

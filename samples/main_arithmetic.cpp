@@ -1,16 +1,19 @@
 #include "arithmetic.h"
 
-extern bool C;
+
 
 void main()
 {
 	string Ex, *ML;
 	Stack<string> st_OS;
 	double Res;
+	bool C;
 
 	//string str1 = "hello, dolly", str2 = "dolly";
 	//int k = str1.find(str2.c_str() + 2, 1, 2);
 	//int k2 = str1.find(str2.substr(2, 2), 1);
+
+	cout << "Supported operators: + - * / ^ ! \\ %" << endl << endl << endl;
 
 	do
 	{
@@ -19,10 +22,10 @@ void main()
 		//cout << "Enter the expression" << endl;
 		//getline(cin, Ex);
 
-		Ex = "-(((2^3)! - 10^2/234) * 3!)^(-1/10) + a";
+		Ex = "(-(((2^3)! - 10^2/234) * 3!)^(-1/10) + a) % (b \\ 2)";
 		cout << Ex << endl;
 
-		Check(Ex);
+		C = Check(Ex);
 
 	} while (C == true);
 
