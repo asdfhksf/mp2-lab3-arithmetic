@@ -1,7 +1,5 @@
 #include "arithmetic.h"
 
-
-
 void main()
 {
 	string Ex, *ML;
@@ -9,20 +7,21 @@ void main()
 	double Res;
 	bool C;
 
-	//string str1 = "hello, dolly", str2 = "dolly";
-	//int k = str1.find(str2.c_str() + 2, 1, 2);
-	//int k2 = str1.find(str2.substr(2, 2), 1);
-
-	cout << "Supported operators: + - * / ^ ! \\ %" << endl << endl << endl;
+	cout << "Supported operators: + - * / ^ ! \\ %" << endl; 
+	cout << "Supported functions:" << endl;
+	cout << "sin() cos() tan() atan() sinh() cosh() tanh() atanh() asin() acos() asinh() acosh() ln()";
+	cout << endl << endl << endl;
 
 	do
 	{
 		C = false;
 
 		//cout << "Enter the expression" << endl;
-		//getline(cin, Ex);
+		//getline(cin, Ex); 
 
 		Ex = "(-(((2^3)! - 10^2/234) * 3!)^(-1/10) + a) % (b \\ 2)";
+		//Ex = "tan(pi) + sin(pi) + cos(pi) + atan(pi) + sinh(pi) + cosh(pi) + tanh(pi) + atanh(1/2) + acos(1/2) + asin(1/2) + acosh(pi) + asinh(pi) + ln(e)";
+
 		cout << Ex << endl;
 
 		C = Check(Ex);

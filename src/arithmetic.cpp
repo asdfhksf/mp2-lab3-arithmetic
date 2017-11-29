@@ -178,8 +178,8 @@ bool Check_Correct_Operands(string str1)
 	bool C = false;
 	bool n = false, first = true;
 	int a;
-	string Op = "+-*/^!()[]\\%";
-
+	string Op = "+-*/^!()[]\\%sincostanatansinhcoshtanhatanhasinacosasinhacoshln";
+	
 	for (unsigned int i = 0; i < str1.length(); i++)
 	{
 		if ((!Is_Elem(str1, Op + " ", i)) && (first))
@@ -242,13 +242,16 @@ int Prior(string str1)
 
 	if (str1 == "!")
 		return 5;
+
+	if ((str1 == "sin") || (str1 == "cos") || (str1 == "tan") || (str1 == "atan") || (str1 == "sinh") || (str1 == "cosh") || (str1 == "tanh") || (str1 == "atanh") || (str1 == "asin") || (str1 == "acos") || (str1 == "asinh") || (str1 == "acosh") || (str1 == "ln"))
+		return 6;
 }
 Stack<string> To_Postfix_Not(string *(&str1), int l)
 {
 	Stack<string> st1(l);
 	Stack<string> Op(l);
-	string OP = "+-*/^!\\%";
-
+	string OP = "+-*/^!\\%sincostanatansinhcoshtanhatanhasinacosasinhacoshln";
+	
 	for (int i = 0; i < l; i++)
 	{
 		if (!Is_Elem(str1[i], OP + "()"))
@@ -301,6 +304,45 @@ double Operator(string str1, double op1, double op2)
 
 	if (str1 == "%")
 		return (int)op1 % (int)op2;
+
+	if (str1 == "sin")
+		return sin(op1);
+
+	if (str1 == "cos")
+		return cos(op1);
+
+	if (str1 == "tan")
+		return tan(op1);
+
+	if (str1 == "atan")
+		return atan(op1);
+
+	if (str1 == "sinh")
+		return sinh(op1);
+
+	if (str1 == "cosh")
+		return cosh(op1);
+
+	if (str1 == "tanh")
+		return tanh(op1);
+
+	if (str1 == "atanh")
+		return atanh(op1);
+
+	if (str1 == "asinh")
+		return asinh(op1);
+
+	if (str1 == "acosh")
+		return acosh(op1);
+
+	if (str1 == "asin")
+		return asin(op1);
+
+	if (str1 == "acos")
+		return acos(op1);
+
+	if (str1 == "ln")
+		return log(op1);
 }
 double Stack_Machine(Stack<string> st1, int l)
 {
@@ -313,9 +355,9 @@ double Stack_Machine(Stack<string> st1, int l)
 
 	for (int i = 0; i < l; i++)
 	{
-		if (Is_Elem(str1[i], Op))
+		if (Is_Elem(str1[i], Op) || (str1[i] == "sin") || (str1[i] == "cos") || (str1[i] == "tan") || (str1[i] == "atan") || (str1[i] == "sinh") || (str1[i] == "cosh") || (str1[i] == "tanh") || (str1[i] == "atanh") || (str1[i] == "asinh") || (str1[i] == "acosh") || (str1[i] == "asin") || (str1[i] == "acos") || (str1[i] == "ln"))
 		{
-			if (str1[i] == "!")
+			if ((str1[i] == "!") || (str1[i] == "sin") || (str1[i] == "cos") || (str1[i] == "tan") || (str1[i] == "atan") || (str1[i] == "sinh") || (str1[i] == "cosh") || (str1[i] == "tanh") || (str1[i] == "atanh") || (str1[i] == "asinh") || (str1[i] == "acosh") || (str1[i] == "asin") || (str1[i] == "acos") || (str1[i] == "ln"))
 			{
 				l_op = st2.Pop();
 				st2.Push(Operator(str1[i], l_op, 0));
@@ -334,9 +376,20 @@ double Stack_Machine(Stack<string> st1, int l)
 			}
 			else
 			{
-				cout << "Enter " << str1[i] << endl;
-				cin >> var;
-				st2.Push(var);
+				if ((str1[i] != "pi") && (str1[i] != "e"))
+				{
+					cout << "Enter " << str1[i] << endl;
+					cin >> var;
+					st2.Push(var);
+				}
+				else
+				{
+					if (str1[i] == "pi")
+						var = M_PI;
+					else
+						var = M_E;
+					st2.Push(var);
+				}
 			}
 		}
 	}
