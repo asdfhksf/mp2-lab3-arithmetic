@@ -1,6 +1,24 @@
 #include "arithmetic.h"
 #include <gtest.h>
 
+struct Composition
+{
+	bool tf;
+	string s;
+
+	Composition(string s1 = "", bool a = false) { s = s1; tf = a; }
+};
+
+class CheckingTest : public ::testing::TestWithParam<Composition>
+{
+protected:
+	Composition ob;
+public:
+	CheckingTest() { ob = GetParam(); }
+	~CheckingTest() {}
+};
+
+
 TEST(Arithmetic, can_is_elem_true)
 {
 	EXPECT_EQ(true, Is_Elem("iuhdasfguihiu-7#&^%$(^%%*&h23465123409", "-", 13));
@@ -31,6 +49,7 @@ TEST(Arithmetic, can_break_into_lexems)
 	EXPECT_EQ("6", str2[6]);
 }
 
+
 TEST(Arithmetic, can_check_correct_characters_true)
 {
 	EXPECT_EQ(true, Check_Correct_Characters(" 1 + &2 - 3^6 "));
@@ -39,6 +58,15 @@ TEST(Arithmetic, can_check_correct_characters_true)
 TEST(Arithmetic, can_check_correct_characters_false)
 {
 	EXPECT_EQ(false, Check_Correct_Characters(" 1 + 2 - 3^6 "));
+}
+
+INSTANTIATE_TEST_CASE_P(Instantiation_1,
+	CheckingTest,
+	::testing::Values(Composition("1 + 1", false), Composition("1 + 1#", true)));
+
+TEST_P(CheckingTest, param_check_correct_characters)
+{
+	EXPECT_EQ(ob.tf, Check_Correct_Characters(ob.s));
 }
 
 TEST(Arithmetic, can_check_correct_operators_true)
@@ -50,6 +78,16 @@ TEST(Arithmetic, can_check_correct_operators_false)
 {
 	EXPECT_EQ(false, Check_Correct_Operators("1 + 2 - 3^6 "));
 }
+
+INSTANTIATE_TEST_CASE_P(Instantiation_2,
+	CheckingTest,
+	::testing::Values(Composition("1 + 1", false), Composition("1 ++ 1", true)));
+
+TEST_P(CheckingTest, param_check_correct_operators)
+{
+	EXPECT_EQ(ob.tf, Check_Correct_Operators(ob.s));
+}
+
 
 TEST(Arithmetic, can_check_correct_brackets_opening_brackets_more)
 {
@@ -75,6 +113,7 @@ TEST(Arithmetic, can_check_correct_operands_false)
 {
 	EXPECT_EQ(false, Check_Correct_Operands("1 + 12345.987 - 9463.987654321^6 "));
 }
+
 
 TEST(Arithmetic, can_juxtapose_indices_of_exp_with_spaces_and_without_spaces)
 {
