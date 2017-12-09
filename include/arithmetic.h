@@ -19,3 +19,5 @@ Stack<string> To_Postfix_Not(string *(&str1), int l);
 double Operator(string str1, double op1, double op2);
 double Stack_Machine(Stack<string> st1, int l);
 string Unary_Minus(string str1);
+
+double Result(string str1);

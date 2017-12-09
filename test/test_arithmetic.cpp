@@ -149,7 +149,7 @@ TEST(Arithmetic, can_to_postfix_not)
 	EXPECT_EQ(1, a);
 }
 
-TEST(Arithmetic, can_calculate_the_result)
+TEST(Arithmetic, can_calculate_the_result_1)
 {
 	Stack<string> st1;
 
@@ -161,4 +161,9 @@ TEST(Arithmetic, can_calculate_the_result)
 TEST(Arithmetic, unary_minus)
 {
 	EXPECT_EQ("0-1+2-3^6", Unary_Minus(" -1 + 2 - 3^6 "));
+}
+
+TEST(Arithmetic, can_calculate_the_result_2)
+{
+	EXPECT_EQ(-726, Result("1 + 2 - 3^6"));
 }

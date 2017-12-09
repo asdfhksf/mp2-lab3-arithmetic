@@ -431,3 +431,13 @@ string Unary_Minus(string str1)
 
 	return tmp;
 }
+
+double Result(string str1)
+{
+	string *ML;
+	Stack<string> st1;
+
+	st1 = To_Postfix_Not(ML, EXtoML(Unary_Minus(str1), ML));
+
+	return Stack_Machine(st1, st1.Amount_Elemnts());
+}
