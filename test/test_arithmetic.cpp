@@ -106,12 +106,12 @@ TEST(Arithmetic, can_check_correct_brackets_different_types)
 
 TEST(Arithmetic, can_check_correct_operands_true)
 {
-	EXPECT_EQ(true, Check_Correct_Operands("1 + 2 2 - 3^6 "));
+	EXPECT_EQ(true, Check_Correct_Operands("1  +    2   2   -  3 ^6   "));
 }
 
 TEST(Arithmetic, can_check_correct_operands_false)
 {
-	EXPECT_EQ(false, Check_Correct_Operands("1 + 12345.987 - 9463.987654321^6 "));
+	EXPECT_EQ(false, Check_Correct_Operands("1    +     12345.987   -    9463.987654321     ^ 6 "));
 }
 
 

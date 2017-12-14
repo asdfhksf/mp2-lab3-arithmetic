@@ -7,7 +7,7 @@ void main()
 	double Res;
 	bool C;
 
-	cout << "Supported operators: + - * / ^ ! \\ %" << endl; 
+	cout << "Supported operators: " << endl << "+ - * / ^ ! \\ %" << endl; 
 	cout << "Supported functions:" << endl;
 	cout << "sin() cos() tan() atan() sinh() cosh() tanh() atanh() asin() acos() asinh() acosh() ln()";
 	cout << endl << endl << endl;

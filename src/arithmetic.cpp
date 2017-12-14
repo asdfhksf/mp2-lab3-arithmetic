@@ -231,6 +231,9 @@ bool Check(string str1)
 
 int Prior(string str1)
 {
+	if (str1 == "(")
+		return 1;
+
 	if ((str1 == "+") || (str1 == "-"))
 		return 2;
 
@@ -269,7 +272,7 @@ Stack<string> To_Postfix_Not(string *(&str1), int l)
 
 		if (Is_Elem(str1[i], OP))
 		{
-			while (!Op.Empty() && (Op.Peek() != "(") && (Prior(str1[i]) <= Prior(Op.Peek())))
+			while (!Op.Empty() && (Prior(str1[i]) <= Prior(Op.Peek())))
 				st1.Push(Op.Pop());
 			Op.Push(str1[i]);
 		}
