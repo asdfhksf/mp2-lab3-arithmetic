@@ -419,7 +419,6 @@ string Unary_Minus(string str1)
 		}
 	}
 
-	cout << tmp << endl;
 	return tmp;
 }
 
