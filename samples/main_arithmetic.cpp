@@ -31,7 +31,7 @@ void main()
 	st_OS = To_Postfix_Not(ML, EXtoML(Unary_Minus(Ex), ML));
 	cout << "Postfix notation" << endl << st_OS << endl << endl;
 
-	Res = Stack_Machine(st_OS, st_OS.Amount_Elemnts());
+	Res = Stack_Machine(st_OS);
 	cout << endl << Res;
 
 	cout << endl;

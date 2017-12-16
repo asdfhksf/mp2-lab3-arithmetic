@@ -60,14 +60,14 @@ TEST(Arithmetic, can_check_correct_characters_false)
 	EXPECT_EQ(false, Check_Correct_Characters(" 1 + 2 - 3^6 "));
 }
 
-INSTANTIATE_TEST_CASE_P(Instantiation_1,
-	CheckingTest,
-	::testing::Values(Composition("1 + 1", false), Composition("1 + 1#", true)));
-
-TEST_P(CheckingTest, param_check_correct_characters)
-{
-	EXPECT_EQ(ob.tf, Check_Correct_Characters(ob.s));
-}
+//INSTANTIATE_TEST_CASE_P(Instantiation_1,
+//	CheckingTest,
+//	::testing::Values(Composition("1 + 1", false), Composition("1 + 1#", true)));
+//
+//TEST_P(CheckingTest, param_check_correct_characters)
+//{
+//	EXPECT_EQ(ob.tf, Check_Correct_Characters(ob.s));
+//}
 
 TEST(Arithmetic, can_check_correct_operators_true)
 {
@@ -79,15 +79,14 @@ TEST(Arithmetic, can_check_correct_operators_false)
 	EXPECT_EQ(false, Check_Correct_Operators("1 + 2 - 3^6 "));
 }
 
-INSTANTIATE_TEST_CASE_P(Instantiation_2,
-	CheckingTest,
-	::testing::Values(Composition("1 + 1", false), Composition("1 ++ 1", true)));
-
-TEST_P(CheckingTest, param_check_correct_operators)
-{
-	EXPECT_EQ(ob.tf, Check_Correct_Operators(ob.s));
-}
-
+//INSTANTIATE_TEST_CASE_P(Instantiation_2,
+//	CheckingTest,
+//	::testing::Values(Composition("1 + 1", false), Composition("1 ++ 1", true)));
+//
+//TEST_P(CheckingTest, param_check_correct_operators)
+//{
+//	EXPECT_EQ(ob.tf, Check_Correct_Operators(ob.s));
+//}
 
 TEST(Arithmetic, can_check_correct_brackets_opening_brackets_more)
 {
@@ -155,12 +154,12 @@ TEST(Arithmetic, can_calculate_the_result_1)
 
 	st1.Push("1"); st1.Push("2"); st1.Push("+"); st1.Push("3"); st1.Push("6"); st1.Push("^"); st1.Push("-");
 
-	EXPECT_EQ(-726, Stack_Machine(st1, 7));
+	EXPECT_EQ(-726, Stack_Machine(st1));
 }
 
 TEST(Arithmetic, unary_minus)
 {
-	EXPECT_EQ("0-1+2-3^6", Unary_Minus(" -1 + 2 - 3^6 "));
+	EXPECT_EQ("0-1+2-3^6*(0-10+(0-5-5)*(0-2))", Unary_Minus(" -1 + 2 - 3^6 * (-10 + (-5 - 5) * (-2))"));
 }
 
 TEST(Arithmetic, can_calculate_the_result_2)

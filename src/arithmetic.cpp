@@ -347,8 +347,9 @@ double Operator(string str1, double op1, double op2)
 	if (str1 == "ln")
 		return log(op1);
 }
-double Stack_Machine(Stack<string> st1, int l)
+double Stack_Machine(Stack<string> st1)
 {
+	int l = st1.Amount_Elemnts();
 	Stack<double> st2;
 	string *str1 = new string[l], Op = "+-*/!^\\%";
 	double l_op, r_op, var;
@@ -404,43 +405,27 @@ string Unary_Minus(string str1)
 	string tmp(str1); string e;
 	int *Pos = new int[tmp.length()];
 
-	for (unsigned int i = 0; i < tmp.length(); i++)
-	{
-		if (tmp[i] == ' ')
-			tmp.erase(i--, 1);
-	}
-
-	Pos[0] = str1.find(tmp[0]);
-	for (unsigned int i = 1; i < tmp.length(); i++)
-		Pos[i] = str1.find(tmp[i], Pos[i - 1] + 1);
+	tmp = Delete_Spaces(tmp);
+	Pos = Positions(Pos, str1, tmp);
 
 	for (unsigned int i = 0; i < tmp.length(); i++)
 	{
-		if ((Is_Elem(tmp, "(", i) && Is_Elem(tmp, "-", i + 1)))
+		if (Is_Elem(tmp, "-", i) && ((i == 0) || Is_Elem(tmp, "(", i - 1)))
 		{
 			e = tmp[tmp.length() - 1];
-			for (unsigned int j = tmp.length(); j > i + 1; j--)
-				tmp[j] = tmp[j - 1];
-			tmp[i + 1] = '0'; tmp += e;
-		}
-		if ((i == 0) && Is_Elem(tmp, "-", i))
-		{
-			e = tmp[tmp.length() - 1];
-			for (unsigned int j = tmp.length(); j > 0; j--)
+			for (unsigned int j = tmp.length(); j > i; j--)
 				tmp[j] = tmp[j - 1];
 			tmp[i] = '0'; tmp += e;
 		}
 	}
 
+	cout << tmp << endl;
 	return tmp;
 }
 
 double Result(string str1)
 {
 	string *ML;
-	Stack<string> st1;
 
-	st1 = To_Postfix_Not(ML, EXtoML(Unary_Minus(str1), ML));
-
-	return Stack_Machine(st1, st1.Amount_Elemnts());
+	return Stack_Machine(To_Postfix_Not(ML, EXtoML(Unary_Minus(str1), ML)));
 }
