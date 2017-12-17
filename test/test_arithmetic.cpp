@@ -159,7 +159,7 @@ TEST(Arithmetic, can_calculate_the_result_1)
 
 TEST(Arithmetic, unary_minus)
 {
-	EXPECT_EQ("0-1+2-3^6*(0-10+(0-5-5)*(0-2))", Unary_Minus(" -1 + 2 - 3^6 * (-10 + (-5 - 5) * (-2))"));
+	EXPECT_EQ("0-1+2-3^6*(0-10+(0-5-5)*(0-2))+1234.4321", Unary_Minus(" -1 + 2 - 3^6 * (-10 + (-5 - 5) * (-2)) + 1234.4321"));
 }
 
 TEST(Arithmetic, can_calculate_the_result_2)

@@ -35,4 +35,19 @@ void main()
 	cout << endl << Res;
 
 	cout << endl;
+
+
+	//double result, h;
+
+	//result = 0;
+
+	//h = 1.0 / 100000000;
+
+	//for (int i = 0; i < 100000000; i++)
+	//{
+	//	result += pow(log(1.0/(h * (i + 0.5))), 0.5);
+	//}
+
+	//result = result * h;
+
 }

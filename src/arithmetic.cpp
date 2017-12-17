@@ -1,15 +1,30 @@
 #include "arithmetic.h"
 
-int fact(int n)
+double fact(double n)
 {
-	int res = 1;
+	double result, h;
 
-	if (n > 0)
+	result = 0;
+
+	if ((n > 0) && ((n - (int)n) != 0))
 	{
-		for (int i = 1; i < n + 1; i++)
-			res *= i;
-		return res;
+		h = 1.0 / 10000000;
+
+		for (int i = 0; i < 10000000; i++)
+		{
+			result += pow(log(1.0 / (h * (i + 0.5))), n);
+		}
+
+		result = result * h;
+		return result;
 	}
+	else
+		if (n > 0)
+		{
+			for (int i = 1; i < n + 1; i++)
+				result *= i;
+			return result;
+		}
 	if (n == 0)
 		return 1;
 	else
@@ -402,17 +417,17 @@ double Stack_Machine(Stack<string> st1)
 }
 string Unary_Minus(string str1)
 {
-	string tmp(str1); string e;
+	string tmp(str1), e;
 	int *Pos = new int[tmp.length()];
 
 	tmp = Delete_Spaces(tmp);
 	Pos = Positions(Pos, str1, tmp);
 
+	e = tmp[tmp.length() - 1];
 	for (unsigned int i = 0; i < tmp.length(); i++)
 	{
 		if (Is_Elem(tmp, "-", i) && ((i == 0) || Is_Elem(tmp, "(", i - 1)))
-		{
-			e = tmp[tmp.length() - 1];
+		{			
 			for (unsigned int j = tmp.length(); j > i; j--)
 				tmp[j] = tmp[j - 1];
 			tmp[i] = '0'; tmp += e;
